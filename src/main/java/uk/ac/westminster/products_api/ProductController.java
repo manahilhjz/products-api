@@ -22,9 +22,13 @@ public class ProductController {
             return productService.getProductById(id);
         }
 
+        @GetMapping("/summaries")
+        public List<String> getAllSummaries() {
+            return productService.getAllSummaries();
+        }
 
         @PostMapping
-        public Product addProduct(@RequestBody Product product) {
+        public Product addProduct(@RequestBody DigitalProduct product) {
             return productService.addProduct(product);
         }
 
