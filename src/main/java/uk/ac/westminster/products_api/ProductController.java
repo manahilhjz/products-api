@@ -2,35 +2,41 @@ package uk.ac.westminster.products_api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
-public class ProductController {
-    @Autowired
-    private ProductService productService;
+public class ProductController{
 
-    @GetMapping
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+
+
+    @GetMapping("/products")
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
 
-        @GetMapping("/{id}")
+    @GetMapping("/products/summaries")
+    public List<String> getAllSummaries() {
+        return productService.getAllSummaries();
+    }
+
+    @PostMapping("/products")
+    public Product addProduct(@RequestBody DigitalProduct product) {
+        return productService.addProduct(product);
+    }
+
+    @GetMapping("/{id}")
         public Optional<Product> getById(@PathVariable Long id) {
             return productService.getProductById(id);
         }
 
-        @GetMapping("/summaries")
-        public List<String> getAllSummaries() {
-            return productService.getAllSummaries();
-        }
-
-        @PostMapping
-        public Product addProduct(@RequestBody DigitalProduct product) {
-            return productService.addProduct(product);
-        }
 
         @DeleteMapping("/products/{id}")
         public void deleteProduct(@PathVariable Long id) {
